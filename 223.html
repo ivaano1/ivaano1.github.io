@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>С Днём Рождения, Мама!</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to top, hsl(338, 39%, 74%), #fff);
+      overflow-x: hidden;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200%;
+      height: 200%;
+      background: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+      opacity: 0.05;
+      z-index: -1;
+      animation: moveClouds 120s linear infinite;
+    }
+
+    @keyframes moveClouds {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-50%, -50%); }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 50px 20px;
+      width: 100%;
+    }
+
+    .cake {
+      position: relative;
+      width: 180px;
+      height: 220px;
+      margin: 50px auto 20px;
+    }
+
+    .layer {
+      position: absolute;
+      background: #ffe0ec;
+      border: 3px solid #ffc1d6;
+      border-radius: 20px;
+      box-shadow: 0 3px 7px rgba(0,0,0,0.1);
+    }
+
+    .layer:nth-child(1) {
+      top: 0;
+      width: 80px;
+      height: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .layer:nth-child(2) {
+      top: 50px;
+      width: 120px;
+      height: 50px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .layer:nth-child(3) {
+      top: 115px;
+      width: 160px;
+      height: 55px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .candle {
+      position: absolute;
+      width: 6px;
+      height: 30px;
+      background: #fff;
+      top: -25px;
+      border-radius: 3px;
+    }
+
+    .candle:nth-child(4) { left: 40%; transform: translateX(-50%); }
+    .candle:nth-child(5) { left: 60%; transform: translateX(-50%); }
+
+    .flame {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, #ffcc00, #ff9900);
+      border-radius: 50%;
+      opacity: 0;
+      animation: flicker 1s infinite alternate;
+      box-shadow: 0 0 8px #ffb300;
+    }
+
+    @keyframes flicker {
+      0% { transform: translateX(-50%) scale(1); opacity: 0.7; }
+      100% { transform: translateX(-50%) scale(1.1); opacity: 1; }
+    }
+
+    .typed-text {
+      width: 80%;
+      max-width: 600px;
+      margin: 30px auto;
+      font-size: 20px;
+      color: #2d2d2d;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      border-right: 2px solid #ff66a3;
+      overflow: hidden;
+      animation: typing 5s steps(50, end), blink .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      from, to { border-color: transparent }
+      50% { border-color: #ff66a3 }
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* Стиль галереи */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.7);
+      justify-content: center;
+      align-items: center;
+      z-index: 20;
+    }
+
+    #popup img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 17px;
+    }
+
+    #popup .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: #fff;
+      border: none;
+      font-size: 20px;
+      color: #000;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 50px;
+      padding: 20px;
+      width: 100%;
+      justify-items: center;
+    }
+
+    .gallery-item {
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s, filter 0.3s;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      transition: transform 0.3s;
+    }
+
+    .gallery-item .caption {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    /* Режим для мобильных устройств */
+    @media (max-width: 500px) {
+      .typed-text {
+        font-size: 16px;
+      }
+      .cake {
+        transform: scale(0.9);
+      }
+      .gallery {
+        padding: 10px;
+      }
+      .gallery-item {
+        width: 100%;
+      }
+    }
+    
+
+h1 {
+    color: #292929;
+    animation: colorFlicker 1s infinite alternate;
+}
+
+     
+  </style>
+</head>
+<body>
+
+  <!-- Попап для увеличенного изображения -->
+  <div id="popup">
+    <button class="close-btn" id="closePopup">X</button>
+    <img id="popupImage" src="" alt="Увеличенное фото">
+  </div>
+
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="container">
+    <div class="cake">
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="layer"></div>
+      <div class="candle"><div class="flame" id="flame1"></div></div>
+      <div class="candle"><div class="flame" id="flame2"></div></div>
+    </div>
+
+    <div class="typed-text" id="message">
+     Моя прекрасная мама, с ДНЁМ РОЖДЕНИЯ!!!! Желаю тебе счастья, долголетия, здоровья, обмен твоих полезных знаний в деньги!
+    </div>
+
+    <h1 class="h1">Галерея с твоими фотографиями</h1>
+
+  <div class="gallery" id="gallery">
+    <div class="gallery-item">
+      <img src="d:\Сайт мамыно поздравление\photo_5460904549129777778_y.jpg" alt="Фото 1">
+      <div class="caption">Мама</div>
+    </div>
+    <div class="gallery-item">
+      <img src="d:\Сайт мамыно поздравление\photo_5460904549129777780_y.jpg" alt="Фото 2">
+      <div class="caption">Мама в Киеве</div>
+    </div>
+
+    <div class="gallery-item">
+      <img src="d:\Сайт мамыно поздравление\photo_5460904549129777781_y.jpg" alt="Фото 3">
+      <div class="caption">Мама пьёт кофе</div>
+
+      
+    </div>
+  </div>
+
+  <script>
+    // Огни свечей
+    const flame1 = document.getElementById("flame1");
+    const flame2 = document.getElementById("flame2");
+    setTimeout(() => { flame1.style.opacity = 1 }, 1000);
+    setTimeout(() => { flame2.style.opacity = 1 }, 2000);
+
+    // Конфетти
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const confetti = [];
+
+    for (let i = 0; i < 150; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        r: Math.random() * 6 + 2,
+        d: Math.random() * 10 + 10,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        tilt: Math.random() * 10 - 10,
+        tiltAngle: 0,
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.ellipse(c.x, c.y, c.r, c.r / 2, c.tilt, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      updateConfetti();
+      requestAnimationFrame(drawConfetti);
+    }
+
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.y += Math.cos(c.d / 2);
+        c.x += Math.sin(c.d / 2);
+        c.tilt += 0.1;
+        if (c.y > canvas.height) {
+          c.y = -20;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    drawConfetti();
+
+    
+    // Галерея
+    const popup = document.getElementById('popup');
+    const popupImage = document.getElementById('popupImage');
+    const closePopup = document.getElementById('closePopup');
+
+    // Открытие попапа с изображением
+    document.querySelectorAll('.gallery-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const imgSrc = item.querySelector('img').src;
+        popupImage.src = imgSrc;
+        popup.style.display = 'flex';
+      });
+    });
+
+    // Закрытие попапа
+    closePopup.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
+
+    // Закрытие попапа при клике вне изображения
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup) {
+        popup.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
